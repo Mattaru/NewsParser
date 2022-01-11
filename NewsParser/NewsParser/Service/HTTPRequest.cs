@@ -1,6 +1,8 @@
 ﻿using HtmlAgilityPack;
+using NewsParser.MVVM.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,38 +13,46 @@ namespace NewsParser.Service
 {
     internal class HTTPRequest
     {
-        public static void GetRequest(string url)
+        private string _response;
+        private HtmlDocument _htmlDoc = new HtmlDocument();
+
+        public HTTPRequest(string url)
         {
-            var response = CallUrl(url).Result;
-            var linkList = ParseHtml(response);
+            _response = GetRequest(url).Result;
+            _htmlDoc.LoadHtml(_response);
         }
 
-        private static async Task<string> CallUrl(string fullUrl)
+        private static async Task<string> GetRequest(string url)
         {
             HttpClient client = new HttpClient();
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
             client.DefaultRequestHeaders.Accept.Clear();
-            var response = client.GetStringAsync(fullUrl);
+            var response = client.GetStringAsync(url);
+
             return await response;
         }
 
-        private static List<string> ParseHtml(string html)
+        public static ObservableCollection<NewsModel> ParseHtml(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(html);
             var programmerLinks = htmlDoc.DocumentNode.Descendants("a")
-                    .Where(node => !node.GetAttributeValue("class", "").Contains("svelte-1pm37ss")).ToList();
+                    .Where(node => !node.GetAttributeValue("class", "")
+                    .Contains("svelte-1pm37ss"))
+                    .ToList();
 
-            List<string> wikiLink = new List<string>();
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
-            foreach (var link in programmerLinks)
+            foreach (var news in programmerLinks)
             {
-                var res = link.Attributes["href"].Value;
+                var newsModel = new NewsModel()
+                {
+                    Text = news.InnerText,
+                    Url = news.Attributes["href"].Value,
+                };
 
-                Console.WriteLine(res);
+                NewsCollection.Add(newsModel);
             }
 
-            return wikiLink;
+            return NewsCollection;
 
         }
     }
