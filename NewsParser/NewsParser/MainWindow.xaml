@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NewsParser"
         xmlns:vm="clr-namespace:NewsParser.MVVM.ViewModels"
         Title="{Binding Title}"
-        Height="450" Width="800"
+        Height="650" Width="1200"
         Background="{StaticResource PrimariBrush}">
 
     <Window.DataContext>
@@ -14,7 +14,52 @@
     </Window.DataContext>
     
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         
+        <Border Grid.Column="0">
+
+            <ListBox Background="{StaticResource SecondaryBrush}"
+                      ItemsSource="{Binding SourceCollection}"
+                      DisplayMemberPath="Name"
+                      FontSize="18"
+                      HorizontalContentAlignment="Center"
+                     SelectedIndex="0"
+                      SelectedItem="{Binding SelectedSource}"/>
+
+
+            
+        </Border>
+
+        <ListBox Grid.Column="1"
+                 Background="Transparent"
+                 ItemsSource="{Binding SelectedSource.News}">
+            <ListBox.ItemTemplate> 
+                <DataTemplate>
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0">
+                            <Hyperlink NavigateUri="{Binding Url}"
+                                       RequestNavigate="Hyperlink_RequestNavigate">click
+                            </Hyperlink>
+                        </TextBlock>
+
+                        <TextBlock Grid.Row="1" Text="{Binding Text}" TextWrapping="Wrap" MaxWidth="600"/>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <GridSplitter Width="3"/>
     </Grid>
     
 </Window>
