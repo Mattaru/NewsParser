@@ -6,7 +6,13 @@ namespace NewsParser.MVVM.Models
 {
     internal class SourceModel : ObservableObject
     {
-        private HTTPRequest _GetNews;
+        #region Resource Url
+
+        private string _url;
+
+        public string Url { get => _url; set => Set(ref _url, value); }
+
+        #endregion
 
         #region Name
 
@@ -24,6 +30,7 @@ namespace NewsParser.MVVM.Models
 
         public SourceModel(string url, ObservableCollection<NewsModel> News)
         {
+            _url = url;
             _name = GetResourceName(url);
             this.News = News;
         }

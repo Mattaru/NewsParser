@@ -51,6 +51,25 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
+        // Commands
+
+        #region GetResourceDataCommand
+
+        public ICommand GetResourceDataCommand { get; }
+
+        private bool CanGetResourceDataCommandExecute(object p) => true;
+
+        private void OnGetResourceDataCommandExecuted(object p)
+        {
+            var url = _SelectedSource.Url;
+            var response = (SynchronizationContext.Current is null ? HTTPRequest.GetRequest(url) : Task.Run(() => HTTPRequest.GetRequest(url))).Result;
+            var News = SwitchParser(url, response);
+            var source = new SourceModel(url, News);
+            SourceCollection.Add(source);
+        }
+
+        #endregion
+
         public MainViewModel () 
         {
             SourceCollection = new ObservableCollection<SourceModel> ();
@@ -66,7 +85,7 @@ namespace NewsParser.MVVM.ViewModels
             #endregion
         }
 
-        static ObservableCollection<NewsModel> Sum37Parser(string response)
+        private static ObservableCollection<NewsModel> Sum37Parser(string response)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(response);
@@ -99,7 +118,7 @@ namespace NewsParser.MVVM.ViewModels
             return NewsCollection;
         }
 
-        static ObservableCollection<NewsModel> AvajarParser(string response)
+        private static ObservableCollection<NewsModel> AvajarParser(string response)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(response);
@@ -132,7 +151,7 @@ namespace NewsParser.MVVM.ViewModels
             return NewsCollection;
         }
 
-        static ObservableCollection<NewsModel> MedipeelParser(string response)
+        private static ObservableCollection<NewsModel> MedipeelParser(string response)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.OptionFixNestedTags = true;
@@ -184,7 +203,7 @@ namespace NewsParser.MVVM.ViewModels
 
 
 
-        static ObservableCollection<NewsModel> OhuiParser(string response)
+        private static ObservableCollection<NewsModel> OhuiParser(string response)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.OptionFixNestedTags = true;
@@ -213,9 +232,9 @@ namespace NewsParser.MVVM.ViewModels
 
             return NewsCollection;
 
-        }
+        } // ???
 
-        static ObservableCollection<NewsModel> ParseHtml(string response)
+        private static ObservableCollection<NewsModel> ParseHtml(string response)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(response);
@@ -239,6 +258,22 @@ namespace NewsParser.MVVM.ViewModels
             }
 
             return NewsCollection;
+        }  // ???
+
+
+
+        private static ObservableCollection<NewsModel> SwitchParser(string resourceName, string response)
+        {
+            switch (resourceName)
+            {
+                case "medipeel.co.kr":
+                    return MedipeelParser(response);
+
+                case "m.avajar.co.kr":
+                    return AvajarParser(response);
+            }
+
+            throw new NotImplementedException("Parsing error. Have not resourcese for parsing.");
         }
     }
 }
