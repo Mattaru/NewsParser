@@ -46,7 +46,7 @@
                         </Grid.RowDefinitions>
 
                         <Image Grid.Row="0" Source="{Binding ImageUrl}" Width="200"/>
-                        <TextBlock Grid.Row="1" Text="{Binding ImageUrl}">
+                        <TextBlock Grid.Row="1">
                             <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">click</Hyperlink>
                         </TextBlock>
 

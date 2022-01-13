@@ -25,14 +25,16 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        private List<string> _UrlList;
+        private List<string> _UrlList = new List<string>()
+        {
+            "https://medipeel.co.kr/product/list.html?cate_no=502",
+            "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117",
+        };
 
         private List<string> _ToDoList = new List<string>()
         {
             "https://www.ohui.co.kr/news/brandnews.jsp",
 
-            "https://medipeel.co.kr/product/list.html?cate_no=502",
-            "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117",
             "http://www.sum37.co.kr/online/magazine/magazine.jsp",
             "https://www.whoo.co.kr",
             "https://www.iope.com/kr/ko/products/new/index.html",
@@ -53,19 +55,81 @@ namespace NewsParser.MVVM.ViewModels
         {
             SourceCollection = new ObservableCollection<SourceModel> ();
 
-            #region Ohui.co.kr 
+            #region reqests
 
-            var url = "https://medipeel.co.kr/product/list.html?cate_no=502";
-
+            var url = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
             var response = (SynchronizationContext.Current is null ? HTTPRequest.GetRequest(url) : Task.Run(() => HTTPRequest.GetRequest(url))).Result;
-
-            var News = MedipeelParser(response);
-
-            var source = new SourceModel(url, News);
-
-            SourceCollection.Add(source);
+            //var News = Sum37Parser(response);
+            //var source = new SourceModel(url, News);
+            //SourceCollection.Add(source);
 
             #endregion
+        }
+
+        static ObservableCollection<NewsModel> Sum37Parser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+
+            var liList = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "li"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("item_list xans-record-")))
+                    .ToList();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            foreach (var item in liList)
+            {
+                var link = item.Descendants("a").First();
+                var image = link.Descendants("img").First();
+
+                var linkUrl = link.Attributes["href"].Value;
+                var imageUrl = image.Attributes["src"].Value;
+
+                var newsModel = new NewsModel()
+                {
+                    Url = "https://medipeel.co.kr" + linkUrl,
+                    ImageUrl = "https:" + imageUrl
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
+        }
+
+        static ObservableCollection<NewsModel> AvajarParser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+
+            var liList = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "li"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("item_list xans-record-")))
+                    .ToList();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            foreach (var item in liList)
+            {
+                var link = item.Descendants("a").First();
+                var image = link.Descendants("img").First();
+
+                var linkUrl = link.Attributes["href"].Value;
+                var imageUrl = image.Attributes["src"].Value;
+
+                var newsModel = new NewsModel()
+                {
+                    Url = "https://medipeel.co.kr" + linkUrl,
+                    ImageUrl = "https:" + imageUrl
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
         }
 
         static ObservableCollection<NewsModel> MedipeelParser(string response)
@@ -84,27 +148,29 @@ namespace NewsParser.MVVM.ViewModels
             
             foreach (var item in liList)
             {
-                var link = item.Descendants().Where(node => (node.Name == "a" && node.Attributes["class"] != null && node.Attributes["class"].Value.Contains("prd_thumb_img"))).First();
+                var link = item.Descendants().
+                    Where(node => (node.Name == "a"
+                    && node.Attributes["class"] != null 
+                    && node.Attributes["class"].Value
+                    .Contains("prd_thumb_img")))
+                    .First();
                 var image = link.Descendants("img").First();
 
                 var linkUrl = link.Attributes["href"].Value;
-
                 string imageUrl = string.Empty;
 
                 try
                 {
                     imageUrl = image.Attributes["src"].Value;
                 }
-                catch (NullReferenceException ex) 
+                catch (NullReferenceException ex)
                 {
                     imageUrl = image.Attributes["ec-data-src"].Value;
-                    continue; 
+                    continue;
                 }
-
 
                 var newsModel = new NewsModel()
                 {
-                    //Text = innerText,
                     Url = "https://medipeel.co.kr" + linkUrl,
                     ImageUrl = "https:" + imageUrl
                 };
@@ -115,6 +181,8 @@ namespace NewsParser.MVVM.ViewModels
             return NewsCollection;
 
         }
+
+
 
         static ObservableCollection<NewsModel> OhuiParser(string response)
         {
