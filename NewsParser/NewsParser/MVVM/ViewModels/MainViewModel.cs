@@ -25,9 +25,12 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        private List<string> _UrlList = new List<string>()
+        private List<string> _UrlList;
+
+        private List<string> _ToDoList = new List<string>()
         {
-            "https://www.ohui.co.kr",
+            "https://www.ohui.co.kr/news/brandnews.jsp",
+
             "https://medipeel.co.kr/product/list.html?cate_no=502",
             "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117",
             "http://www.sum37.co.kr/online/magazine/magazine.jsp",
@@ -46,21 +49,105 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        // Commands
-
         public MainViewModel () 
         {
             SourceCollection = new ObservableCollection<SourceModel> ();
 
-            var response = (SynchronizationContext.Current is null ? HTTPRequest.GetRequest("https://mail.ru") : Task.Run(() => HTTPRequest.GetRequest("https://mail.ru"))).Result;
-            var News = ParseHtml(response);
+            #region Ohui.co.kr 
 
-            var source = new SourceModel("https://mail.ru", News);
+            var url = "https://medipeel.co.kr/product/list.html?cate_no=502";
+
+            var response = (SynchronizationContext.Current is null ? HTTPRequest.GetRequest(url) : Task.Run(() => HTTPRequest.GetRequest(url))).Result;
+
+            var News = MedipeelParser(response);
+
+            var source = new SourceModel(url, News);
 
             SourceCollection.Add(source);
+
+            #endregion
         }
 
-        public ObservableCollection<NewsModel> ParseHtml(string response)
+        static ObservableCollection<NewsModel> MedipeelParser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.OptionFixNestedTags = true;
+            htmlDoc.LoadHtml(response);
+
+            var liList = htmlDoc.DocumentNode.Descendants()
+                .Where(node => (node.Name == "li"
+                && node.Attributes["class"] != null 
+                && node.Attributes["class"].Value.Contains("item xans-record-")))
+                .ToList();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+            
+            foreach (var item in liList)
+            {
+                var link = item.Descendants().Where(node => (node.Name == "a" && node.Attributes["class"] != null && node.Attributes["class"].Value.Contains("prd_thumb_img"))).First();
+                var image = link.Descendants("img").First();
+
+                var linkUrl = link.Attributes["href"].Value;
+
+                string imageUrl = string.Empty;
+
+                try
+                {
+                    imageUrl = image.Attributes["src"].Value;
+                }
+                catch (NullReferenceException ex) 
+                {
+                    imageUrl = image.Attributes["ec-data-src"].Value;
+                    continue; 
+                }
+
+
+                var newsModel = new NewsModel()
+                {
+                    //Text = innerText,
+                    Url = "https://medipeel.co.kr" + linkUrl,
+                    ImageUrl = "https:" + imageUrl
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
+
+        }
+
+        static ObservableCollection<NewsModel> OhuiParser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.OptionFixNestedTags = true;
+            htmlDoc.LoadHtml(response);
+
+            var li = htmlDoc.DocumentNode.Descendants("li")
+                    .ToList();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            foreach (var item in li)
+            {
+                var text = item.ChildNodes[0].ChildNodes[0].InnerText;
+                var lincUrl = item.ChildNodes[0].Attributes["href"].Value;
+                var imgUrl = item.ChildNodes[0].ChildNodes[1].ChildNodes[0].Attributes["src"].Value;
+
+                var newsModel = new NewsModel()
+                {
+                    Text = text,
+                    Url = lincUrl,
+                    ImageUrl = imgUrl,
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
+
+        }
+
+        static ObservableCollection<NewsModel> ParseHtml(string response)
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(response);
@@ -84,7 +171,6 @@ namespace NewsParser.MVVM.ViewModels
             }
 
             return NewsCollection;
-
         }
     }
 }
