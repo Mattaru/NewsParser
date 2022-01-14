@@ -3,11 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:NewsParser"
              StartupUri="MainWindow.xaml">
+    
     <Application.Resources>
         <ResourceDictionary>
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Themes/Basic/Brushes.xaml"/>
+                <ResourceDictionary Source="./Themes/HyperlinkTheme.xaml"/>
+                <ResourceDictionary Source="./Themes/ResourceButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
     </Application.Resources>
+    
 </Application>

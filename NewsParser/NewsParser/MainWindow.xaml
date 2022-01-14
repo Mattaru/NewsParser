@@ -20,58 +20,161 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <Grid Grid.Column="0">
+        <Border Grid.Column="0">
 
-            <ListBox Background="{StaticResource SecondaryBrush}"
-                     ItemsSource="{Binding SourceCollection}"
-                     DisplayMemberPath="Name"
-                     FontSize="18"
-                     SelectedIndex="0"
+            <StackPanel VerticalAlignment="Center">
+
+                <Button Content="Medipeel"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
+                        Style="{StaticResource HTForm_b}"/>
+
+                <Button Content="Avajar"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="https://m.avajar.co.kr/product/list_thumb.html?cate_no=117"
+                        Style="{StaticResource HTForm_b}"/>
+
+                <Button Content="Iope"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="https://www.iope.com/kr/ko/products/new/index.html"
+                        Style="{StaticResource HTForm_b}"/>
+
+                <Button Content="Labonita"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="https://labonita-nc1.co.kr/29"
+                        Style="{StaticResource HTForm_b}"/>
+
+                <TextBlock HorizontalAlignment="Stretch"
+                           Style="{StaticResource HLink}"
+                           Margin="0,5">
+                    
+                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                                NavigateUri="https://www.ohui.co.kr/news/brandnews.jsp"
+                                TextDecorations="None">
+                        
+                        <Label Content="Ohui"
+                               Width="250"
+                                HorizontalContentAlignment="Center"
+                               FontSize="24"
+                               Foreground="{StaticResource SecondaryBrush}"/>
+                        
+                    </Hyperlink>
+                    
+                </TextBlock>
+
+                <TextBlock HorizontalAlignment="Stretch"
+                           Style="{StaticResource HLink}"
+                           Margin="0,5">
+                    
+                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                                NavigateUri="http://www.sum37.co.kr/online/magazine/magazine.jsp"
+                                TextDecorations="None">
+                        
+                        <Label Content="Sum37"
+                               Width="250"
+                               HorizontalContentAlignment="Center"
+                               FontSize="24"
+                               Foreground="{StaticResource SecondaryBrush}"/>
+                        
+                    </Hyperlink>
+
+                </TextBlock>
+
+                <TextBlock HorizontalAlignment="Stretch"
+                           Style="{StaticResource HLink}"
+                           Margin="0,5">
+                    
+                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                                NavigateUri="https://www.whoo.co.kr"
+                                TextDecorations="None">
+                        
+                        <Label Content="Whoo"
+                               Width="250"
+                                HorizontalContentAlignment="Center"
+                               FontSize="24"
+                               Foreground="{StaticResource SecondaryBrush}"/>
+                        
+                    </Hyperlink>
+
+                </TextBlock>
+
+            </StackPanel>
+            
+        </Border>
+
+        <Grid Grid.Column="1"
+              Background="#CFCFCF">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <ListBox Grid.Row="0"
                      HorizontalContentAlignment="Center"
-                     SelectedItem="{Binding SelectedSource}"/>
-
-        </Grid>
-
-        <ListBox Grid.Column="1"
                  Background="Transparent"
                  ItemsSource="{Binding SelectedSource.News}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    
-                    <Border Height="500" Width="400"
-                            Background="#252525"
-                            CornerRadius="10">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), 
+                        RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                               ItemWidth="{Binding (ListView.View).ItemWidth, 
+                        RelativeSource={RelativeSource AncestorType=ListView}}"
+                               MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                               ItemHeight="{Binding (ListView.View).ItemHeight, 
+                        RelativeSource={RelativeSource AncestorType=ListView}}"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
 
                         <Grid>
 
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition/>
                             </Grid.RowDefinitions>
 
                             <Image Grid.Row="0"
-                                   Height="500" Width="400"
-                                   Source="{Binding ImageUrl}"/>
-                            
-                            <TextBlock Grid.Row="0"
-                                       HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Bottom"
-                                       Height="100">
+                                Height="500" Width="400"
+                                Source="{Binding ImageUrl}"/>
+
+                            <Border Grid.Row="0"
+                                    CornerRadius="0,0,10,10">
+
+                                <TextBlock Background="Gray"
+                                           Height="500" Width="400"
+                                           Opacity="0.4"
+                                           VerticalAlignment="Stretch"
+                                           HorizontalAlignment="Stretch">
+                                
                                 <Hyperlink NavigateUri="{Binding Url}"
-                                           RequestNavigate="Hyperlink_RequestNavigate">
-                                    <Label Content="{Binding Text}"/>
+                                           RequestNavigate="Hyperlink_RequestNavigate"
+                                           TextDecorations="None">
+                                    
+                                    <TextBlock Text="{Binding Text}"
+                                               Padding="6"
+                                               Width="400" Height="100"
+                                               Background="{StaticResource SecondaryBrush}"
+                                               Foreground="#CFCFCF"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Top"
+                                               TextWrapping="Wrap"/>
+                                    
                                 </Hyperlink>
+                                
                             </TextBlock>
+                            </Border>
 
                         </Grid>
 
-                    </Border>
-                    
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+        </Grid>
+        
 
-        <GridSplitter Width="3"/>
+        <GridSplitter Width="1"/>
     </Grid>
     
 </Window>

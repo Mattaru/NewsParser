@@ -1,4 +1,5 @@
 ﻿using NewsParser.Core;
+using NewsParser.Infrastructure.Commands;
 using NewsParser.MVVM.Models;
 using NewsParser.Service;
 using System;
@@ -34,7 +35,7 @@ namespace NewsParser.MVVM.ViewModels
             "https://www.whoo.co.kr"
         };
 
-        public ObservableCollection<SourceModel> SourceCollection { get; } = new ObservableCollection<SourceModel>();
+        public ObservableCollection<SourceModel> SourceCollection { get; set; }
 
         #region SelectedSource
 
@@ -54,19 +55,23 @@ namespace NewsParser.MVVM.ViewModels
 
         private void OnGetResourceDataCommandExecuted(object p)
         {
-            var url = _SelectedSource.Url;
-            HTMLRequest.GetCollectionFromResource(url, SourceCollection);
+            SelectedSource = HTTPRequest.GetResourceData((string)p);
+            OnPropertyChanged(nameof(SelectedSource));
         }
 
         #endregion
 
         public MainViewModel () 
         {
+            GetResourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
+
+            //SourceCollection = new ObservableCollection<SourceModel>();
+
             #region reqests
 
             foreach (var url in _UrlList)
             {
-                HTMLRequest.GetCollectionFromResource(url, SourceCollection);
+                //HTMLRequest.GetCollectionFromResource(url, SourceCollection);
             }
 
             #endregion
@@ -85,7 +90,9 @@ namespace NewsParser.MVVM.ViewModels
 
             var NewsCollection = new ObservableCollection<NewsModel>(news);
 
-            SourceCollection.Add(new SourceModel("https://mail.ru", NewsCollection));
+            var sources = Enumerable.Range(1, 10).Select(i => new SourceModel($"https://mail.ru{i}", NewsCollection));
+
+            SourceCollection = new ObservableCollection<SourceModel>(sources);
         }
     }
 }
