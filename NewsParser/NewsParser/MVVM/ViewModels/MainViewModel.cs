@@ -64,19 +64,6 @@ namespace NewsParser.MVVM.ViewModels
         public MainViewModel () 
         {
             GetResourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
-
-            //SourceCollection = new ObservableCollection<SourceModel>();
-
-            #region reqests
-
-            foreach (var url in _UrlList)
-            {
-                //HTMLRequest.GetCollectionFromResource(url, SourceCollection);
-            }
-
-            #endregion
-
-            //MakeTestCollection();
         }
 
         private void MakeTestCollection()
