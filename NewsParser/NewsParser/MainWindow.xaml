@@ -49,8 +49,14 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
 
-                            <Image Grid.Row="0" Source="{Binding ImageUrl}" Height="500" Width="400"/>
-                            <TextBlock Grid.Row="1">
+                            <Image Grid.Row="0"
+                                   Height="500" Width="400"
+                                   Source="{Binding ImageUrl}"/>
+                            
+                            <TextBlock Grid.Row="0"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Bottom"
+                                       Height="100">
                                 <Hyperlink NavigateUri="{Binding Url}"
                                            RequestNavigate="Hyperlink_RequestNavigate">
                                     <Label Content="{Binding Text}"/>
