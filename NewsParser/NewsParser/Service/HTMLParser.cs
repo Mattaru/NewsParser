@@ -45,7 +45,7 @@ namespace NewsParser.Service
             {
                 var newsModel = new NewsModel()
                 {
-                    Text = item.Descendants("img").First().Attributes["alt"].Value,
+                    Text = item.Descendants("h2").First().InnerText,
                     Url = "https://labonita-nc1.co.kr" + item.Descendants("a").First().Attributes["href"].Value,
                     ImageUrl = item.Descendants("img").First().Attributes["src"].Value
                 };
