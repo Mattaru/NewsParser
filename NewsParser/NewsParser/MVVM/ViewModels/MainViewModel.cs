@@ -29,16 +29,15 @@ namespace NewsParser.MVVM.ViewModels
         {
             "https://medipeel.co.kr/product/list.html?cate_no=502",
             "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117",
+            "https://www.iope.com/kr/ko/products/new/index.html",
+            "https://labonita-nc1.co.kr/29",
         };
 
         private List<string> _ToDoList = new List<string>()
         {
             "https://www.ohui.co.kr/news/brandnews.jsp",
-
             "http://www.sum37.co.kr/online/magazine/magazine.jsp",
-            "https://www.whoo.co.kr",
-            "https://www.iope.com/kr/ko/products/new/index.html",
-            "https://labonita-nc1.co.kr/29",
+            "https://www.whoo.co.kr"
         };
 
         public ObservableCollection<SourceModel> SourceCollection { get; }
@@ -76,40 +75,87 @@ namespace NewsParser.MVVM.ViewModels
 
             #region reqests
 
-            var url = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
-            var response = (SynchronizationContext.Current is null ? HTTPRequest.GetRequest(url) : Task.Run(() => HTTPRequest.GetRequest(url))).Result;
-            //var News = Sum37Parser(response);
-            //var source = new SourceModel(url, News);
-            //SourceCollection.Add(source);
+            /*foreach (var url in _UrlList)
+            {
+                var response = (SynchronizationContext.Current is null ? HTTPRequest.GetRequest(url) : Task.Run(() => HTTPRequest.GetRequest(url))).Result;
+                var News = SwitchParser(url, response);
+                var source = new SourceModel(url, News);
+                SourceCollection.Add(source);
+            }*/
 
             #endregion
+
+            var news = Enumerable.Range(0, 20).Select(i => new NewsModel()
+            {
+                Text = $"Just text for trying {i}",
+                Url = "https://mail.ru",
+                ImageUrl = ""
+            });
+
+            var NewsCollection = new ObservableCollection<NewsModel>(news);
+
+            SourceCollection.Add(new SourceModel("https://mail.ru", NewsCollection));
+
         }
 
-        private static ObservableCollection<NewsModel> Sum37Parser(string response)
+        private static ObservableCollection<NewsModel> LabonitaParser(string response) // With text
         {
             HtmlDocument htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(response);
 
-            var liList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "li"
+            var divList = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "div"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("item_list xans-record-")))
+                    && node.Attributes["class"].Value.Contains("shop-item _shop_item")))
                     .ToList();
 
             ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
-            foreach (var item in liList)
+            foreach (var item in divList) 
             {
-                var link = item.Descendants("a").First();
-                var image = link.Descendants("img").First();
-
-                var linkUrl = link.Attributes["href"].Value;
-                var imageUrl = image.Attributes["src"].Value;
-
                 var newsModel = new NewsModel()
                 {
-                    Url = "https://medipeel.co.kr" + linkUrl,
-                    ImageUrl = "https:" + imageUrl
+                    Text = item.Descendants("img").First().Attributes["alt"].Value,
+                    Url = "https://labonita-nc1.co.kr" + item.Descendants("a").First().Attributes["href"].Value,
+                    ImageUrl = item.Descendants("img").First().Attributes["src"].Value
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
+        }
+
+        private static ObservableCollection<NewsModel> IopeParser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+
+            var linkList = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "div"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("new-list list")))
+                    .First()
+                    .Descendants("a")
+                    .ToList();
+
+            var imgList = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "div"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("new-list list")))
+                    .First()
+                    .Descendants("img")
+                    .ToList();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            for (int i = 0; i < imgList.Count; i++)
+            {
+                var newsModel = new NewsModel()
+                {
+                    Text = imgList[i].Attributes["alt"].Value,
+                    Url = "https://www.iope.com" + linkList[i].Attributes["href"].Value,
+                    ImageUrl = "https://www.iope.com" + imgList[i].Attributes["src"].Value
                 };
 
                 NewsCollection.Add(newsModel);
@@ -136,13 +182,11 @@ namespace NewsParser.MVVM.ViewModels
                 var link = item.Descendants("a").First();
                 var image = link.Descendants("img").First();
 
-                var linkUrl = link.Attributes["href"].Value;
-                var imageUrl = image.Attributes["src"].Value;
-
                 var newsModel = new NewsModel()
                 {
-                    Url = "https://medipeel.co.kr" + linkUrl,
-                    ImageUrl = "https:" + imageUrl
+                    Text = image.Attributes["alt"].Value,
+                    Url = "https://medipeel.co.kr" + link.Attributes["href"].Value,
+                    ImageUrl = "https:" + image.Attributes["src"].Value
                 };
 
                 NewsCollection.Add(newsModel);
@@ -175,22 +219,17 @@ namespace NewsParser.MVVM.ViewModels
                     .First();
                 var image = link.Descendants("img").First();
 
-                var linkUrl = link.Attributes["href"].Value;
                 string imageUrl = string.Empty;
 
-                try
-                {
-                    imageUrl = image.Attributes["src"].Value;
-                }
-                catch (NullReferenceException ex)
-                {
+                if (image.Attributes.Contains("ec-data-src"))
                     imageUrl = image.Attributes["ec-data-src"].Value;
-                    continue;
-                }
+                else
+                    imageUrl = image.Attributes["src"].Value;
 
                 var newsModel = new NewsModel()
                 {
-                    Url = "https://medipeel.co.kr" + linkUrl,
+                    Text = image.Attributes["alt"].Value,
+                    Url = "https://medipeel.co.kr" + link.Attributes["href"].Value,
                     ImageUrl = "https:" + imageUrl
                 };
 
@@ -199,78 +238,24 @@ namespace NewsParser.MVVM.ViewModels
 
             return NewsCollection;
 
-        }
-
-
-
-        private static ObservableCollection<NewsModel> OhuiParser(string response)
-        {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.OptionFixNestedTags = true;
-            htmlDoc.LoadHtml(response);
-
-            var li = htmlDoc.DocumentNode.Descendants("li")
-                    .ToList();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
-
-            foreach (var item in li)
-            {
-                var text = item.ChildNodes[0].ChildNodes[0].InnerText;
-                var lincUrl = item.ChildNodes[0].Attributes["href"].Value;
-                var imgUrl = item.ChildNodes[0].ChildNodes[1].ChildNodes[0].Attributes["src"].Value;
-
-                var newsModel = new NewsModel()
-                {
-                    Text = text,
-                    Url = lincUrl,
-                    ImageUrl = imgUrl,
-                };
-
-                NewsCollection.Add(newsModel);
-            }
-
-            return NewsCollection;
-
-        } // ???
-
-        private static ObservableCollection<NewsModel> ParseHtml(string response)
-        {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
-            var programmerLinks = htmlDoc.DocumentNode.Descendants("a")
-                    .Where(node => !node.GetAttributeValue("class", "")
-                    .Contains("svelte-1pm37ss"))
-                    .ToList();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
-
-            foreach (var news in programmerLinks)
-            {
-                var newsModel = new NewsModel()
-                {
-                    Text = news.InnerText,
-                    Url = news.Attributes["href"].Value,
-                };
-
-                NewsCollection.Add(newsModel);
-            }
-
-            return NewsCollection;
-        }  // ???
-
+        } 
 
 
         private static ObservableCollection<NewsModel> SwitchParser(string resourceName, string response)
         {
             switch (resourceName)
             {
-                case "medipeel.co.kr":
+                case "https://medipeel.co.kr/product/list.html?cate_no=502":
                     return MedipeelParser(response);
 
-                case "m.avajar.co.kr":
+                case "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117":
                     return AvajarParser(response);
+
+                case "https://www.iope.com/kr/ko/products/new/index.html":
+                    return IopeParser(response);
+
+                case "https://labonita-nc1.co.kr/29":
+                    return LabonitaParser(response);
             }
 
             throw new NotImplementedException("Parsing error. Have not resourcese for parsing.");

@@ -23,34 +23,44 @@
         <Grid Grid.Column="0">
 
             <ListBox Background="{StaticResource SecondaryBrush}"
-                      ItemsSource="{Binding SourceCollection}"
-                      DisplayMemberPath="Name"
-                      FontSize="18"
-                      HorizontalContentAlignment="Center"
+                     ItemsSource="{Binding SourceCollection}"
+                     DisplayMemberPath="Name"
+                     FontSize="18"
                      SelectedIndex="0"
-                      SelectedItem="{Binding SelectedSource}"/>
+                     HorizontalContentAlignment="Center"
+                     SelectedItem="{Binding SelectedSource}"/>
 
-            
         </Grid>
 
         <ListBox Grid.Column="1"
                  Background="Transparent"
                  ItemsSource="{Binding SelectedSource.News}">
-            <ListBox.ItemTemplate> 
+            <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    
+                    <Border Height="500" Width="400"
+                            Background="#252525"
+                            CornerRadius="10">
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                        <Grid>
 
-                        <Image Grid.Row="0" Source="{Binding ImageUrl}" Width="200"/>
-                        <TextBlock Grid.Row="1">
-                            <Hyperlink NavigateUri="{Binding Url}" RequestNavigate="Hyperlink_RequestNavigate">click</Hyperlink>
-                        </TextBlock>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
 
-                    </Grid>
+                            <Image Grid.Row="0" Source="{Binding ImageUrl}" Height="500" Width="400"/>
+                            <TextBlock Grid.Row="1">
+                                <Hyperlink NavigateUri="{Binding Url}"
+                                           RequestNavigate="Hyperlink_RequestNavigate">
+                                    <Label Content="{Binding Text}"/>
+                                </Hyperlink>
+                            </TextBlock>
+
+                        </Grid>
+
+                    </Border>
+                    
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
