@@ -8,11 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\espresso.jpg" />
+    <None Remove="Images\Navigate.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="MVVM\Views\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\espresso.jpg" />
+    <Resource Include="Images\Navigate.jpg" />
   </ItemGroup>
 
 </Project>
