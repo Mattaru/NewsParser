@@ -170,11 +170,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            
+
         </Grid>
         
-
-        <GridSplitter Width="1"/>
     </Grid>
     
 </Window>

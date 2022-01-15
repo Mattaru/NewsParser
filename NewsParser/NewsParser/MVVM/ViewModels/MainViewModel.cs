@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NewsParser.MVVM.ViewModels
@@ -55,8 +56,12 @@ namespace NewsParser.MVVM.ViewModels
 
         private void OnGetResourceDataCommandExecuted(object p)
         {
-            SelectedSource = HTTPRequest.GetResourceData((string)p);
-            OnPropertyChanged(nameof(SelectedSource));
+            Task.Run(() => 
+            {
+                SelectedSource = HTTPRequest.GetResourceData((string)p);
+                OnPropertyChanged(nameof(SelectedSource));
+            });
+
         }
 
         #endregion
