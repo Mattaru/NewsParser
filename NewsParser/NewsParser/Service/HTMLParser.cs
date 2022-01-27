@@ -23,9 +23,44 @@ namespace NewsParser.Service
 
                 case "https://labonita-nc1.co.kr/29":
                     return LabonitaParser(response);
+
+                case "https://snpmall.net/product/list_new.html?cate_no=293":
+                    return SNPMallParser(response);
             }
 
             throw new NotImplementedException("Parsing error. Have not resourcese for parsing.");
+        }
+
+        public static ObservableCollection<NewsModel> SNPMallParser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+
+            var divList = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "li"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("rn_prd_thumbnail normal xans-record- xans-record-")))
+                    .ToList();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            foreach (var item in divList)
+            {
+                var textDiv = item.Descendants().Where(node => (node.Name == "div"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("name"))).First();
+
+                var newsModel = new NewsModel()
+                {
+                    Text = textDiv.Descendants("a").First().InnerText,
+                    Url = "https://snpmall.net" + item.Descendants("a").First().Attributes["href"].Value,
+                    ImageUrl = "https:" + item.Descendants("img").First().Attributes["src"].Value
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
         }
 
         public static ObservableCollection<NewsModel> LabonitaParser(string response)

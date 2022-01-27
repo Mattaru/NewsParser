@@ -49,12 +49,17 @@
                         CommandParameter="https://labonita-nc1.co.kr/29"
                         Style="{StaticResource HTForm_b}"/>
 
+                <Button Content="SNPMall"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="https://snpmall.net/product/list_new.html?cate_no=293"
+                        Style="{StaticResource HTForm_b}"/>
+
                 <TextBlock HorizontalAlignment="Stretch"
                            Style="{StaticResource HLink}"
                            Margin="0,5">
                     
                     <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                NavigateUri="https://www.ohui.co.kr/news/brandnews.jsp"
+                                NavigateUri="{Binding ohui}"
                                 TextDecorations="None">
                         
                         <Label Content="Ohui"
@@ -72,7 +77,7 @@
                            Margin="0,5">
                     
                     <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                NavigateUri="http://www.sum37.co.kr/online/magazine/magazine.jsp"
+                                NavigateUri="{Binding sum37}"
                                 TextDecorations="None">
                         
                         <Label Content="Sum37"
@@ -90,7 +95,7 @@
                            Margin="0,5">
                     
                     <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                NavigateUri="https://www.whoo.co.kr"
+                                NavigateUri="{Binding whoo}"
                                 TextDecorations="None">
                         
                         <Label Content="Whoo"

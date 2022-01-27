@@ -19,20 +19,17 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        private List<string> _HandledlList = new List<string>()
-        {
-            "https://medipeel.co.kr/product/list.html?cate_no=502",
-            "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117",
-            "https://www.iope.com/kr/ko/products/new/index.html",
-            "https://labonita-nc1.co.kr/29",
-        };
+        // for parsing
+        public string medipeel = "https://medipeel.co.kr/product/list.html?cate_no=502";
+        public string avajar = "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117";
+        public string iope = "https://www.iope.com/kr/ko/products/new/index.html";
+        public string labonita = "https://labonita-nc1.co.kr/29";
+        public string snpmall = "https://snpmall.net/product/list_new.html?cate_no=293";
 
-        private List<string> _UnhandledDoList = new List<string>()
-        {
-            "https://www.ohui.co.kr/news/brandnews.jsp",
-            "http://www.sum37.co.kr/online/magazine/magazine.jsp",
-            "https://www.whoo.co.kr"
-        };
+        // for links
+        public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
+        public string sum37 = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
+        public string whoo = "https://www.whoo.co.kr";
 
         public ObservableCollection<SourceModel> SourceCollection { get; set; }
 
@@ -48,13 +45,13 @@ namespace NewsParser.MVVM.ViewModels
 
         #region GetResourceDataCommand
 
-        public ICommand GetResourceDataCommand { get; }
+        public ICommand GetResourceDataCommand { get; } 
 
         private bool CanGetResourceDataCommandExecute(object p) => true;
 
         private void OnGetResourceDataCommandExecuted(object p)
         {
-            Task.Run(() => 
+            Task.Run(() =>
             {
                 SelectedSource = HTTPRequest.GetResourceData((string)p);
                 OnPropertyChanged(nameof(SelectedSource));
@@ -64,7 +61,7 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        public MainViewModel () 
+        public MainViewModel() 
         {
             GetResourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
         }
