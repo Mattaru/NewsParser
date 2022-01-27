@@ -1,34 +1,63 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Style TargetType="{x:Type Button}" x:Key="HTForm_b">
-        <Setter Property="Foreground" Value="{StaticResource SecondaryBrush}"/>
-        <Setter Property="FontSize" Value="24"/>
-        <Setter Property="Margin" Value="0,5"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
+    <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="{x:Type RadioButton}" x:Key="HTForm_b">
 
-                    <Border CornerRadius="4"
-                            x:Name="Border"
-                            Height="{TemplateBinding Height}"
-                            Width="{TemplateBinding Width}">
+        <Style.Setters>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource SecondaryBrush}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
 
-                        <ContentPresenter Margin="2"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            RecognizesAccessKey="True"/>
-                    </Border>
+                        <Grid VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              Background="{TemplateBinding Background}"
+                              Height="50">
 
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+                            <ContentPresenter Grid.Column="2" Focusable="False"
+                                            Content="{TemplateBinding Tag}"
+                                            HorizontalAlignment="Left"
+                                            Margin="{TemplateBinding Padding}"
+                                            RecognizesAccessKey="True"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                            <Border Grid.Column="0"
+                                    x:Name="IsChecedBorder"
+                                    HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                                    BorderBrush="{StaticResource SecondaryBrush}"
+                                    Height="50"
+                                    BorderThickness="0,0,8,0"
+                                    CornerRadius="0,4,4,0"
+                                    Width="8"
+                                    Visibility="Hidden"/>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Visibility" TargetName="IsChecedBorder" Value="Visible"/>
+                                <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="BorderBrush" TargetName="IsChecedBorder" Value="{StaticResource BlackFontBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource BlackFontBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
     </Style>
 
 </ResourceDictionary>

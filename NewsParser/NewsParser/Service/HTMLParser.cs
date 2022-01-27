@@ -43,9 +43,9 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var divList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "li"
+                    .Where(node => node.Name == "li"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("rn_prd_thumbnail normal xans-record- xans-record-")))
+                    && node.Attributes["class"].Value.Contains("rn_prd_thumbnail normal xans-record- xans-record-"))
                     .ToList();
 
             ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
@@ -75,9 +75,9 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var divList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "div"
+                    .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("shop-item _shop_item")))
+                    && node.Attributes["class"].Value.Contains("shop-item _shop_item"))
                     .ToList();
 
             ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
@@ -103,17 +103,17 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var linkList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "div"
+                    .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("new-list list")))
+                    && node.Attributes["class"].Value.Contains("new-list list"))
                     .First()
                     .Descendants("a")
                     .ToList();
 
             var imgList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "div"
+                    .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("new-list list")))
+                    && node.Attributes["class"].Value.Contains("new-list list"))
                     .First()
                     .Descendants("img")
                     .ToList();
@@ -141,9 +141,9 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var liList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "li"
+                    .Where(node => node.Name == "li"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("item_list xans-record-")))
+                    && node.Attributes["class"].Value.Contains("item_list xans-record-"))
                     .ToList();
 
             ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
@@ -173,9 +173,9 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var liList = htmlDoc.DocumentNode.Descendants()
-                .Where(node => (node.Name == "li"
+                .Where(node => node.Name == "li"
                 && node.Attributes["class"] != null
-                && node.Attributes["class"].Value.Contains("item xans-record-")))
+                && node.Attributes["class"].Value.Contains("item xans-record-"))
                 .ToList();
 
             ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
@@ -217,9 +217,9 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var ul = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "ul"
+                    .Where(node => node.Name == "ul"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("thumb-wrapper")))
+                    && node.Attributes["class"].Value.Contains("thumb-wrapper"))
                     .First();
 
             var liList = ul.Descendants("li").ToArray();
@@ -251,9 +251,9 @@ namespace NewsParser.Service
             htmlDoc.LoadHtml(response);
 
             var div = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => (node.Name == "div"
+                    .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("brandNewsList")))
+                    && node.Attributes["class"].Value.Contains("brandNewsList"))
                     .First();
 
             var liList = div.Descendants("li").ToArray();

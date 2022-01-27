@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NewsParser"
         xmlns:vm="clr-namespace:NewsParser.MVVM.ViewModels"
         Title="{Binding Title}"
+        WindowStyle="None"
         ResizeMode="NoResize"
         Height="650" Width="1150"
         Background="{StaticResource PrimariBrush}">
@@ -22,64 +23,110 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         
-        <Border Grid.Column="0" Opacity="0.8">
-            <Border.Background>
-                <ImageBrush ImageSource="/Images/Navigate.jpg"/>
-            </Border.Background>
+        <Grid Grid.Column="0" Opacity="0.8">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Images/Coffee.png"/>
+            </Grid.Background>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0"
+                        VerticalAlignment="Center">
 
-            <StackPanel VerticalAlignment="Center">
+                <RadioButton Tag="Ohui"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="https://www.ohui.co.kr/news/brandnews.jsp"
+                             Style="{StaticResource HTForm_b}"/>
 
-                <Button Content="Ohui"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="https://www.ohui.co.kr/news/brandnews.jsp"
-                        Style="{StaticResource HTForm_b}"/>
+                <RadioButton Tag="Sum37"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="http://www.sum37.co.kr/online/magazine/magazine.jsp"
+                             Style="{StaticResource HTForm_b}"/>
 
-                <Button Content="Sum37"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="http://www.sum37.co.kr/online/magazine/magazine.jsp"
-                        Style="{StaticResource HTForm_b}"/>
+                <RadioButton Tag="Medipeel"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
+                             Style="{StaticResource HTForm_b}"/>
 
-                
+                <RadioButton Tag="Avajar"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="https://m.avajar.co.kr/product/list_thumb.html?cate_no=117"
+                             Style="{StaticResource HTForm_b}"/>
 
-                <Button Content="Medipeel"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
-                        Style="{StaticResource HTForm_b}"/>
+                <RadioButton Tag="Iope"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="https://www.iope.com/kr/ko/products/new/index.html"
+                             Style="{StaticResource HTForm_b}"/>
 
-                <Button Content="Avajar"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="https://m.avajar.co.kr/product/list_thumb.html?cate_no=117"
-                        Style="{StaticResource HTForm_b}"/>
+                <RadioButton Tag="Labonita"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="https://labonita-nc1.co.kr/29"
+                             Style="{StaticResource HTForm_b}"/>
 
-                <Button Content="Iope"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="https://www.iope.com/kr/ko/products/new/index.html"
-                        Style="{StaticResource HTForm_b}"/>
-
-                <Button Content="Labonita"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="https://labonita-nc1.co.kr/29"
-                        Style="{StaticResource HTForm_b}"/>
-
-                <Button Content="SNPMall"
-                        Command="{Binding GetResourceDataCommand}"
-                        CommandParameter="https://snpmall.net/product/list_new.html?cate_no=293"
-                        Style="{StaticResource HTForm_b}"/>
+                <RadioButton Tag="SNP"
+                             Command="{Binding GetResourceDataCommand}"
+                             CommandParameter="https://snpmall.net/product/list_new.html?cate_no=293"
+                             Style="{StaticResource HTForm_b}"/>
 
             </StackPanel>
-            
-        </Border>
 
-        <Border Grid.Column="1"/>
+            <Grid Grid.Row="1"
+                  VerticalAlignment="Stretch">
 
+                <Label Content="links"
+                       Margin="4,0,4,10"
+                       Foreground="{StaticResource PrimariBrush}"/>
+
+                <TextBlock HorizontalAlignment="Stretch"
+                           Style="{StaticResource HLink}"
+                           Margin="10,20">
+
+                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                               NavigateUri="{Binding whoo}"
+                               TextDecorations="None">
+
+                        <Label Content="TheHystoryOfWhoo"
+                               Width="300"
+                               HorizontalContentAlignment="Left"
+                               FontSize="14"
+                               Foreground="{StaticResource SecondaryBrush}"/>
+
+                    </Hyperlink>
+
+                </TextBlock>
+            </Grid>
+
+        </Grid>
+        
         <Grid Grid.Column="1"
               HorizontalAlignment="Stretch">
             
             <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ListBox Grid.Row="0"
+            <Border Grid.Row="0"
+                    Background="{StaticResource BlackFontBrush}" MouseDown="Border_MouseDown">
+                
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    
+                    <Button Content="quit"
+                            Width="60"
+                            Foreground="{StaticResource PrimariBrush}"
+                            BorderThickness="0"
+                            Background="Transparent"
+                            Command="{Binding CloseAppCommand}"/>
+                    
+                </StackPanel>
+                
+            </Border>
+            
+            <ListBox Grid.Row="1"
                      Width="850"
                      Background="Transparent"
                      ItemsSource="{Binding SelectedSource.News}"
@@ -124,7 +171,7 @@
                                     <TextBlock Text="{Binding Text}"
                                                Padding="6"
                                                Width="400" Height="100"
-                                               Background="{StaticResource CardFontBrush}"
+                                               Background="{StaticResource BlackFontBrush}"
                                                Foreground="#CFCFCF"
                                                FontSize="14"
                                                FontWeight="Bold"

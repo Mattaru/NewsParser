@@ -5,6 +5,7 @@ using NewsParser.Service;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NewsParser.MVVM.ViewModels
@@ -20,6 +21,7 @@ namespace NewsParser.MVVM.ViewModels
         #endregion
 
         // for parsing
+        public string sum37 = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
         public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
         public string medipeel = "https://medipeel.co.kr/product/list.html?cate_no=502";
         public string avajar = "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117";
@@ -28,8 +30,6 @@ namespace NewsParser.MVVM.ViewModels
         public string snpmall = "https://snpmall.net/product/list_new.html?cate_no=293";
 
         // for links
-        
-        public string sum37 = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
         public string whoo = "https://www.whoo.co.kr";
 
         public ObservableCollection<SourceModel> SourceCollection { get; set; }
@@ -43,6 +43,16 @@ namespace NewsParser.MVVM.ViewModels
         #endregion
 
         // Commands
+
+        #region CloseAppCommand
+
+        public ICommand CloseAppCommand { get; }
+
+        private bool CanCloseAppCommandExecute(object p) => true;
+
+        private void OnCloseAppCommandExecuted(object p) => Application.Current.Shutdown();
+
+        #endregion
 
         #region GetResourceDataCommand
 
@@ -64,6 +74,7 @@ namespace NewsParser.MVVM.ViewModels
 
         public MainViewModel() 
         {
+            CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
             GetResourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
         }
     }
