@@ -29,6 +29,18 @@
 
             <StackPanel VerticalAlignment="Center">
 
+                <Button Content="Ohui"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="https://www.ohui.co.kr/news/brandnews.jsp"
+                        Style="{StaticResource HTForm_b}"/>
+
+                <Button Content="Sum37"
+                        Command="{Binding GetResourceDataCommand}"
+                        CommandParameter="http://www.sum37.co.kr/online/magazine/magazine.jsp"
+                        Style="{StaticResource HTForm_b}"/>
+
+                
+
                 <Button Content="Medipeel"
                         Command="{Binding GetResourceDataCommand}"
                         CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
@@ -53,60 +65,6 @@
                         Command="{Binding GetResourceDataCommand}"
                         CommandParameter="https://snpmall.net/product/list_new.html?cate_no=293"
                         Style="{StaticResource HTForm_b}"/>
-
-                <TextBlock HorizontalAlignment="Stretch"
-                           Style="{StaticResource HLink}"
-                           Margin="0,5">
-                    
-                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                NavigateUri="{Binding ohui}"
-                                TextDecorations="None">
-                        
-                        <Label Content="Ohui"
-                               Width="300"
-                                HorizontalContentAlignment="Center"
-                               FontSize="24"
-                               Foreground="{StaticResource SecondaryBrush}"/>
-                        
-                    </Hyperlink>
-                    
-                </TextBlock>
-
-                <TextBlock HorizontalAlignment="Stretch"
-                           Style="{StaticResource HLink}"
-                           Margin="0,5">
-                    
-                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                NavigateUri="{Binding sum37}"
-                                TextDecorations="None">
-                        
-                        <Label Content="Sum37"
-                               Width="300"
-                               HorizontalContentAlignment="Center"
-                               FontSize="24"
-                               Foreground="{StaticResource SecondaryBrush}"/>
-                        
-                    </Hyperlink>
-
-                </TextBlock>
-
-                <TextBlock HorizontalAlignment="Stretch"
-                           Style="{StaticResource HLink}"
-                           Margin="0,5">
-                    
-                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                NavigateUri="{Binding whoo}"
-                                TextDecorations="None">
-                        
-                        <Label Content="Whoo"
-                               Width="300"
-                                HorizontalContentAlignment="Center"
-                               FontSize="24"
-                               Foreground="{StaticResource SecondaryBrush}"/>
-                        
-                    </Hyperlink>
-
-                </TextBlock>
 
             </StackPanel>
             

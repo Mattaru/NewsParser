@@ -5,11 +5,16 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>coffee.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Images\espresso.jpg" />
     <None Remove="Images\Navigate.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="coffee.ico" />
   </ItemGroup>
 
   <ItemGroup>

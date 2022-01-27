@@ -20,6 +20,7 @@ namespace NewsParser.MVVM.ViewModels
         #endregion
 
         // for parsing
+        public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
         public string medipeel = "https://medipeel.co.kr/product/list.html?cate_no=502";
         public string avajar = "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117";
         public string iope = "https://www.iope.com/kr/ko/products/new/index.html";
@@ -27,7 +28,7 @@ namespace NewsParser.MVVM.ViewModels
         public string snpmall = "https://snpmall.net/product/list_new.html?cate_no=293";
 
         // for links
-        public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
+        
         public string sum37 = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
         public string whoo = "https://www.whoo.co.kr";
 
@@ -53,7 +54,7 @@ namespace NewsParser.MVVM.ViewModels
         {
             Task.Run(() =>
             {
-                SelectedSource = HTTPRequest.GetResourceData((string)p);
+                SelectedSource = HTTPRequest.GetSourceData((string)p);
                 OnPropertyChanged(nameof(SelectedSource));
             });
 

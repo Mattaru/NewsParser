@@ -12,6 +12,12 @@ namespace NewsParser.Service
         {
             switch (resourceName)
             {
+                case "https://www.ohui.co.kr/news/brandnews.jsp":
+                    return OhuiParser(response);
+
+                case "http://www.sum37.co.kr/online/magazine/magazine.jsp":
+                    return Sum37Parser(response);
+
                 case "https://medipeel.co.kr/product/list.html?cate_no=502":
                     return MedipeelParser(response);
 
@@ -203,6 +209,70 @@ namespace NewsParser.Service
 
             return NewsCollection;
 
+        }
+
+        public static ObservableCollection<NewsModel> Sum37Parser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+
+            var ul = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "ul"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("thumb-wrapper")))
+                    .First();
+
+            var liList = ul.Descendants("li").ToArray();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            foreach (var item in liList)
+            {
+                var img = item.Descendants("img").First().Attributes["src"].Value.Split("&#47;"); 
+
+                var imgUrl = string.Join("/", img);
+
+                var newsModel = new NewsModel()
+                {
+                    Text = item.Descendants("span").First().InnerText,
+                    Url = "http://www.sum37.co.kr/" + item.Descendants("a").First().Attributes["href"].Value,
+                    ImageUrl = "http://www.sum37.co.kr" + imgUrl
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
+        }
+
+        public static ObservableCollection<NewsModel> OhuiParser(string response)
+        {
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(response);
+
+            var div = htmlDoc.DocumentNode.Descendants()
+                    .Where(node => (node.Name == "div"
+                    && node.Attributes["class"] != null
+                    && node.Attributes["class"].Value.Contains("brandNewsList")))
+                    .First();
+
+            var liList = div.Descendants("li").ToArray();
+
+            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
+
+            foreach (var item in liList)
+            {
+                var newsModel = new NewsModel()
+                {
+                    Text = item.Descendants("img").First().Attributes["alt"].Value,
+                    Url = "https://www.ohui.co.kr" + item.Descendants("a").First().Attributes["href"].Value,
+                    ImageUrl = "https://www.ohui.co.kr" + item.Descendants("img").First().Attributes["src"].Value
+                };
+
+                NewsCollection.Add(newsModel);
+            }
+
+            return NewsCollection;
         }
     }
 }
