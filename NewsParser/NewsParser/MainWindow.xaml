@@ -30,7 +30,7 @@
             
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="120"/>
             </Grid.RowDefinitions>
             
             <StackPanel Grid.Row="0"
@@ -76,27 +76,45 @@
             <Grid Grid.Row="1"
                   VerticalAlignment="Stretch">
 
-                <Label Content="links"
-                       Margin="4,0,4,10"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Content="Links:"
+                       VerticalContentAlignment="Center"
+                       Margin="10,0"
+                       Padding="0"
                        Foreground="{StaticResource PrimariBrush}"/>
 
-                <TextBlock HorizontalAlignment="Stretch"
-                           Style="{StaticResource HLink}"
-                           Margin="10,20">
+                <Border Grid.Row="1"
+                        Margin="10,0,0,10"
+                        BorderThickness="2,0,0,0"
+                        BorderBrush="{StaticResource PrimariBrush}">
+                    <StackPanel>
 
-                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                               NavigateUri="{Binding whoo}"
-                               TextDecorations="None">
+                        <TextBlock HorizontalAlignment="Stretch"
+                               Style="{StaticResource HLink}">
 
-                        <Label Content="TheHystoryOfWhoo"
-                               Width="300"
-                               HorizontalContentAlignment="Left"
-                               FontSize="14"
-                               Foreground="{StaticResource SecondaryBrush}"/>
+                        <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                                   NavigateUri="{Binding whoo}"
+                                   TextDecorations="None">
 
-                    </Hyperlink>
+                            <Label Content="TheHystoryOfWhoo"
+                                   Width="300"
+                                   HorizontalContentAlignment="Left"
+                                   FontSize="14"
+                                   Foreground="{StaticResource SecondaryBrush}"/>
 
-                </TextBlock>
+                        </Hyperlink>
+
+                        </TextBlock>
+
+                    </StackPanel>
+                </Border>
+                
+                
+                
             </Grid>
 
         </Grid>
