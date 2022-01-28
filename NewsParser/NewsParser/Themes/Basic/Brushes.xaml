@@ -3,6 +3,7 @@
 
     <SolidColorBrush Color="#FFBC9468" x:Key="PrimariBrush"/>
     <SolidColorBrush Color="White" x:Key="SecondaryBrush"/>
+    <SolidColorBrush Color="#FF231B0E" x:Key="SupportingBrush"/>
     <SolidColorBrush Color="#252525" x:Key="BlackFontBrush"/>
 
 </ResourceDictionary>

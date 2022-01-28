@@ -5,17 +5,15 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>coffee.ico</ApplicationIcon>
+    <ApplicationIcon>-teddy-bear_86808.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Images\Coffee.png" />
-    <None Remove="Images\espresso.jpg" />
-    <None Remove="Images\Navigate.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="coffee.ico" />
+    <Content Include="-teddy-bear_86808.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,8 +28,6 @@
     <Resource Include="Images\Coffee.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\espresso.jpg" />
-    <Resource Include="Images\Navigate.jpg" />
   </ItemGroup>
 
 </Project>

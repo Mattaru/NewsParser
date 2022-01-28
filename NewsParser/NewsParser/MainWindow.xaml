@@ -143,67 +143,91 @@
                 </StackPanel>
                 
             </Border>
-            
+
             <ListBox Grid.Row="1"
                      Width="850"
                      Background="Transparent"
                      ItemsSource="{Binding SelectedSource.News}"
-                     HorizontalContentAlignment="Center">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Width="{Binding (FrameworkElement.ActualWidth), 
-                        RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
-                               ItemWidth="{Binding (ListView.View).ItemWidth, 
-                        RelativeSource={RelativeSource AncestorType=ListView}}"
-                               MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
-                               ItemHeight="{Binding (ListView.View).ItemHeight, 
-                        RelativeSource={RelativeSource AncestorType=ListView}}"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
+                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     HorizontalAlignment="Stretch"
+                     HorizontalContentAlignment="Stretch">
+                
                 <ListBox.ItemTemplate>
                     <DataTemplate>
 
-                        <Grid>
+                        <Border Background="{StaticResource BlackFontBrush}"
+                                Height="400"
+                                CornerRadius="4">
+                            
+                            <Grid>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="300"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Image Grid.Row="0"
-                                Height="500" Width="400"
-                                Source="{Binding ImageUrl}"/>
+                                <Border Grid.Column="0"
+                                        CornerRadius="4"
+                                        Background="#CFCFCF"
+                                        Margin="10">
 
-                            <Border Grid.Row="0"
-                                    CornerRadius="0,0,10,10">
+                                    <Image Margin="6"
+                                           Source="{Binding ImageUrl}"/>
 
-                                <TextBlock Background="Gray"
-                                           Height="100" Width="400"
-                                           Opacity="0.4"
-                                           VerticalAlignment="Top"
-                                           HorizontalAlignment="Stretch">
+                                </Border>
+
+                                <Grid Grid.Column="1">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height=" 200"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0"
+                                            Margin="10,40"
+                                            Background="{StaticResource BlackFontBrush}">
+                                        
+                                        <TextBlock Text="{Binding Text}"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="{StaticResource PrimariBrush}"
+                                                   FontSize="18"/>
+                                    </Border>
+
+                                    <Border Grid.Row="1"
+                                            CornerRadius="50"
+                                            Height="80" Width="80"
+                                            Background="{StaticResource PrimariBrush}">
+
+                                        <TextBlock Background="Transparent"
+                                                   Height="80" Width="80"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center">
                                 
-                                <Hyperlink NavigateUri="{Binding Url}"
-                                           RequestNavigate="Hyperlink_RequestNavigate"
-                                           TextDecorations="None">
+                                            <Hyperlink NavigateUri="{Binding Url}"
+                                                       RequestNavigate="Hyperlink_RequestNavigate"
+                                                       TextDecorations="None">
                                     
-                                    <TextBlock Text="{Binding Text}"
-                                               Padding="6"
-                                               Width="400" Height="100"
-                                               Background="{StaticResource BlackFontBrush}"
-                                               Foreground="#CFCFCF"
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               HorizontalAlignment="Stretch"
-                                               VerticalAlignment="Top"
-                                               TextWrapping="Wrap"/>
+                                                <Label Content="Read"
+                                                       Height="80" Width="80"
+                                                       Foreground="{StaticResource BlackFontBrush}"
+                                                       FontSize="14"
+                                                       FontWeight="Bold"
+                                                       HorizontalContentAlignment="Center"
+                                                       VerticalContentAlignment="Center"/>
                                     
-                                </Hyperlink>
+                                            </Hyperlink>
                                 
-                            </TextBlock>
-                            </Border>
+                                        </TextBlock>
 
-                        </Grid>
-
+                                    </Border>
+                                    
+                                </Grid>
+                                
+                            </Grid>
+                            
+                        </Border>
+                        
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
