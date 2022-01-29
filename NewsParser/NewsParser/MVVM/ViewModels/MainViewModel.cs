@@ -81,7 +81,7 @@ namespace NewsParser.MVVM.ViewModels
 
             // For tests
 
-            /*var news = Enumerable.Range(0, 10).Select(i => new NewsModel()
+            var news = Enumerable.Range(0, 10).Select(i => new NewsModel()
             {
                 Text = "아무나 가질 수 없는 특별함이 깃든 오휘 다이아데인 크림",
                 Url = "https://mail.ru",
@@ -92,7 +92,7 @@ namespace NewsParser.MVVM.ViewModels
 
             var source = new SourceModel("https://mail.ru", NewsColl);
 
-            SelectedSource = source;*/
+            SelectedSource = source;
         }
     }
 }

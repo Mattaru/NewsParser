@@ -148,10 +148,11 @@
                      Width="850"
                      Background="Transparent"
                      ItemsSource="{Binding SelectedSource.News}"
-                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      HorizontalAlignment="Stretch"
-                     HorizontalContentAlignment="Stretch">
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.CanContentScroll="False">
                 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -170,7 +171,9 @@
                                 <Border Grid.Column="0"
                                         CornerRadius="4"
                                         Background="#CFCFCF"
-                                        Margin="10">
+                                        Margin="10"
+                                        BorderThickness="2"
+                                        BorderBrush="{StaticResource PrimariBrush}">
 
                                     <Image Margin="6"
                                            Source="{Binding ImageUrl}"/>
@@ -192,12 +195,15 @@
                                                    TextWrapping="Wrap"
                                                    Foreground="{StaticResource PrimariBrush}"
                                                    FontSize="18"/>
+                                        
                                     </Border>
 
                                     <Border Grid.Row="1"
                                             CornerRadius="50"
                                             Height="80" Width="80"
-                                            Background="{StaticResource PrimariBrush}">
+                                            Background="{StaticResource PrimariBrush}"
+                                            BorderThickness="2"
+                                            BorderBrush="#CFCFCF">
 
                                         <TextBlock Background="Transparent"
                                                    Height="80" Width="80"
