@@ -8,40 +8,37 @@ namespace NewsParser.Service
 {
     internal static class HTMLParser
     {
-        public static ObservableCollection<NewsModel> SwitchParser(string resourceName, string response)
+        public static ObservableCollection<NewsModel> SwitchParser(string resourceName, HtmlDocument htmlDoc)
         {
             switch (resourceName)
             {
                 case "https://www.ohui.co.kr/news/brandnews.jsp":
-                    return OhuiParser(response);
+                    return OhuiParser(htmlDoc);
 
                 case "http://www.sum37.co.kr/online/magazine/magazine.jsp":
-                    return Sum37Parser(response);
+                    return Sum37Parser(htmlDoc);
 
                 case "https://medipeel.co.kr/product/list.html?cate_no=502":
-                    return MedipeelParser(response);
+                    return MedipeelParser(htmlDoc);
 
                 case "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117":
-                    return AvajarParser(response);
+                    return AvajarParser(htmlDoc);
 
                 case "https://www.iope.com/kr/ko/products/new/index.html":
-                    return IopeParser(response);
+                    return IopeParser(htmlDoc);
 
                 case "https://labonita-nc1.co.kr/29":
-                    return LabonitaParser(response);
+                    return LabonitaParser(htmlDoc);
 
                 case "https://snpmall.net/product/list_new.html?cate_no=293":
-                    return SNPMallParser(response);
+                    return SNPMallParser(htmlDoc);
             }
 
             throw new NotImplementedException("Parsing error. Have not resourcese for parsing.");
         }
 
-        public static ObservableCollection<NewsModel> SNPMallParser(string response)
+        public static ObservableCollection<NewsModel> SNPMallParser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
             var divList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "li"
                     && node.Attributes["class"] != null
@@ -69,11 +66,8 @@ namespace NewsParser.Service
             return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> LabonitaParser(string response)
+        public static ObservableCollection<NewsModel> LabonitaParser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
             var divList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
@@ -97,11 +91,8 @@ namespace NewsParser.Service
             return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> IopeParser(string response)
+        public static ObservableCollection<NewsModel> IopeParser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
             var linkList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
@@ -135,11 +126,8 @@ namespace NewsParser.Service
             return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> AvajarParser(string response)
+        public static ObservableCollection<NewsModel> AvajarParser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
             var liList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "li"
                     && node.Attributes["class"] != null
@@ -166,12 +154,8 @@ namespace NewsParser.Service
             return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> MedipeelParser(string response)
+        public static ObservableCollection<NewsModel> MedipeelParser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.OptionFixNestedTags = true;
-            htmlDoc.LoadHtml(response);
-
             var liList = htmlDoc.DocumentNode.Descendants()
                 .Where(node => node.Name == "li"
                 && node.Attributes["class"] != null
@@ -211,11 +195,8 @@ namespace NewsParser.Service
 
         }
 
-        public static ObservableCollection<NewsModel> Sum37Parser(string response)
+        public static ObservableCollection<NewsModel> Sum37Parser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
             var ul = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "ul"
                     && node.Attributes["class"] != null
@@ -245,11 +226,8 @@ namespace NewsParser.Service
             return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> OhuiParser(string response)
+        public static ObservableCollection<NewsModel> OhuiParser(HtmlDocument htmlDoc)
         {
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(response);
-
             var div = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null

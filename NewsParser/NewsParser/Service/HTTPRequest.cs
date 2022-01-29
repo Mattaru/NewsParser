@@ -1,4 +1,5 @@
-﻿using NewsParser.MVVM.Models;
+﻿using HtmlAgilityPack;
+using NewsParser.MVVM.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Net;
@@ -11,7 +12,7 @@ namespace NewsParser.Service
 {
     internal static class HTTPRequest
     {
-        public static async Task<string> GetRequest(string url)
+        private static async Task<string> GetRequest(string url)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -23,18 +24,19 @@ namespace NewsParser.Service
             return response;
         }
 
-        public static void GetResourceCollection(string url, ObservableCollection<SourceModel> Collection)
+        private static HtmlDocument GetHTMLDoc(string httpResponse)
         {
-            var response = (SynchronizationContext.Current is null ? GetRequest(url) : Task.Run(() => GetRequest(url))).Result;
-            var News = HTMLParser.SwitchParser(url, response);
-            var source = new SourceModel(url, News);
-            Collection.Add(source);
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(httpResponse);
+
+            return htmlDoc;
         }
 
         public static SourceModel GetSourceData(string url)
         {
             var response = (SynchronizationContext.Current is null ? GetRequest(url) : Task.Run(() => GetRequest(url))).Result;
-            var News = HTMLParser.SwitchParser(url, response);
+            var htmlDoc = GetHTMLDoc(response);
+            var News = HTMLParser.SwitchParser(url, htmlDoc);
             var source = new SourceModel(url, News);
 
             return source;
