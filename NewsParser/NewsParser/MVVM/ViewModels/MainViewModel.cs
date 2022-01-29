@@ -43,6 +43,30 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
+        #region LoadingSpinner visibility
+
+        private string _spinnerVisibility = "Collapsed";
+
+        public string SpinnerVisibility { get => _spinnerVisibility; set => Set(ref _spinnerVisibility, value); }
+
+        #endregion
+
+        #region NewsList visibility
+
+        private string _newsListVisibility = "Collapsed";
+
+        public string NewsListVisibility { get => _newsListVisibility; set => Set(ref _newsListVisibility, value); }
+
+        #endregion
+
+        #region NewsLoaded
+
+        private bool _newsLoaded = false;
+
+        public bool NewsLoaded { get => _newsLoaded; set => Set(ref _newsLoaded, value); }
+
+        #endregion
+
         // Commands
 
         #region CloseAppCommand
@@ -55,20 +79,25 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        #region GetResourceDataCommand
+        #region GetSourceDataCommand
 
-        public ICommand GetResourceDataCommand { get; } 
+        public ICommand GetSourceDataCommand { get; } 
 
         private bool CanGetResourceDataCommandExecute(object p) => true;
 
-        private void OnGetResourceDataCommandExecuted(object p)
+        private async void OnGetResourceDataCommandExecuted(object p)
         {
-            Task.Run(() =>
+            await Task.Run(() =>
             {
+                if (NewsListVisibility != "Collapsed") NewsListVisibility = "Collapsed";
+                if (SpinnerVisibility != "Visible") SpinnerVisibility = "Visible";
+
                 SelectedSource = HTTPRequest.GetSourceData((string)p);
                 OnPropertyChanged(nameof(SelectedSource));
-            });
 
+                NewsListVisibility = "Visible";
+                SpinnerVisibility = "Collapsed";
+            });
         }
 
         #endregion
@@ -76,7 +105,7 @@ namespace NewsParser.MVVM.ViewModels
         public MainViewModel() 
         {
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
-            GetResourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
+            GetSourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
 
 
             // For tests

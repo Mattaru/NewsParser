@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:components="clr-namespace:NewsParser.Components"
         xmlns:local="clr-namespace:NewsParser"
         xmlns:vm="clr-namespace:NewsParser.MVVM.ViewModels"
         Title="{Binding Title}"
@@ -37,37 +39,37 @@
                         VerticalAlignment="Center">
 
                 <RadioButton Tag="Ohui"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://www.ohui.co.kr/news/brandnews.jsp"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Sum37"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="http://www.sum37.co.kr/online/magazine/magazine.jsp"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Medipeel"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Avajar"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://m.avajar.co.kr/product/list_thumb.html?cate_no=117"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Iope"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://www.iope.com/kr/ko/products/new/index.html"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Labonita"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://labonita-nc1.co.kr/29"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="SNP"
-                             Command="{Binding GetResourceDataCommand}"
+                             Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://snpmall.net/product/list_new.html?cate_no=293"
                              Style="{StaticResource HTForm_b}"/>
 
@@ -144,6 +146,17 @@
                 
             </Border>
 
+            <Border Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Visibility="{Binding SpinnerVisibility}">
+
+                <components:LoadingSpinner Diameter="70"
+                                           Color1="Transparent"
+                                           Color2="#CFCFCF"/>
+
+            </Border>
+            
             <ListBox Grid.Row="1"
                      Width="850"
                      Background="Transparent"
@@ -152,7 +165,8 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Stretch"
-                     ScrollViewer.CanContentScroll="False">
+                     ScrollViewer.CanContentScroll="False"
+                     Visibility="{Binding NewsListVisibility}">
                 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
