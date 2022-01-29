@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using NewsParser.MVVM.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace NewsParser.Service
 {
     internal static class HTMLParser
     {
-        public static ObservableCollection<NewsModel> SwitchParser(string resourceName, HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> SwitchParser(string resourceName, HtmlDocument htmlDoc)
         {
             switch (resourceName)
             {
@@ -37,15 +38,13 @@ namespace NewsParser.Service
             throw new NotImplementedException("Parsing error. Have not resourcese for parsing.");
         }
 
-        public static ObservableCollection<NewsModel> SNPMallParser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> SNPMallParser(HtmlDocument htmlDoc)
         {
             var divList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "li"
                     && node.Attributes["class"] != null
                     && node.Attributes["class"].Value.Contains("rn_prd_thumbnail normal xans-record- xans-record-"))
                     .ToList();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
             foreach (var item in divList)
             {
@@ -60,21 +59,17 @@ namespace NewsParser.Service
                     ImageUrl = "https:" + item.Descendants("img").First().Attributes["src"].Value
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> LabonitaParser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> LabonitaParser(HtmlDocument htmlDoc)
         {
             var divList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "div"
                     && node.Attributes["class"] != null
                     && node.Attributes["class"].Value.Contains("shop-item _shop_item"))
                     .ToList();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
             foreach (var item in divList)
             {
@@ -85,13 +80,11 @@ namespace NewsParser.Service
                     ImageUrl = item.Descendants("img").First().Attributes["src"].Value
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> IopeParser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> IopeParser(HtmlDocument htmlDoc)
         {
             var linkList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "div"
@@ -109,8 +102,6 @@ namespace NewsParser.Service
                     .Descendants("img")
                     .ToList();
 
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
-
             for (int i = 0; i < imgList.Count; i++)
             {
                 var newsModel = new NewsModel()
@@ -120,21 +111,17 @@ namespace NewsParser.Service
                     ImageUrl = "https://www.iope.com" + imgList[i].Attributes["src"].Value
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> AvajarParser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> AvajarParser(HtmlDocument htmlDoc)
         {
             var liList = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "li"
                     && node.Attributes["class"] != null
                     && node.Attributes["class"].Value.Contains("item_list xans-record-"))
                     .ToList();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
             foreach (var item in liList)
             {
@@ -148,21 +135,17 @@ namespace NewsParser.Service
                     ImageUrl = "https:" + image.Attributes["src"].Value
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> MedipeelParser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> MedipeelParser(HtmlDocument htmlDoc)
         {
             var liList = htmlDoc.DocumentNode.Descendants()
                 .Where(node => node.Name == "li"
                 && node.Attributes["class"] != null
                 && node.Attributes["class"].Value.Contains("item xans-record-"))
                 .ToList();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
             foreach (var item in liList)
             {
@@ -188,14 +171,11 @@ namespace NewsParser.Service
                     ImageUrl = "https:" + imageUrl
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
-
         }
 
-        public static ObservableCollection<NewsModel> Sum37Parser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> Sum37Parser(HtmlDocument htmlDoc)
         {
             var ul = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "ul"
@@ -204,8 +184,6 @@ namespace NewsParser.Service
                     .First();
 
             var liList = ul.Descendants("li").ToArray();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
             foreach (var item in liList)
             {
@@ -220,13 +198,11 @@ namespace NewsParser.Service
                     ImageUrl = "http://www.sum37.co.kr" + imgUrl
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
         }
 
-        public static ObservableCollection<NewsModel> OhuiParser(HtmlDocument htmlDoc)
+        public static IEnumerable<NewsModel> OhuiParser(HtmlDocument htmlDoc)
         {
             var div = htmlDoc.DocumentNode.Descendants()
                     .Where(node => node.Name == "div"
@@ -235,8 +211,6 @@ namespace NewsParser.Service
                     .First();
 
             var liList = div.Descendants("li").ToArray();
-
-            ObservableCollection<NewsModel> NewsCollection = new ObservableCollection<NewsModel>();
 
             foreach (var item in liList)
             {
@@ -247,10 +221,8 @@ namespace NewsParser.Service
                     ImageUrl = "https://www.ohui.co.kr" + item.Descendants("img").First().Attributes["src"].Value
                 };
 
-                NewsCollection.Add(newsModel);
+                yield return newsModel;
             }
-
-            return NewsCollection;
         }
     }
 }

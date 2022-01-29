@@ -1,5 +1,6 @@
 ﻿using NewsParser.Core;
 using NewsParser.Service;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NewsParser.MVVM.Models
@@ -24,11 +25,11 @@ namespace NewsParser.MVVM.Models
 
         #region News collection
 
-        public ObservableCollection<NewsModel> News { get; set; }
+        public IEnumerable<NewsModel> News { get; set; }
 
         #endregion
 
-        public SourceModel(string url, ObservableCollection<NewsModel> News)
+        public SourceModel(string url, IEnumerable<NewsModel> News)
         {
             _url = url;
             _name = GetResourceName(url);

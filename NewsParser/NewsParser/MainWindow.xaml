@@ -194,6 +194,8 @@
                                         <TextBlock Text="{Binding Text}"
                                                    TextWrapping="Wrap"
                                                    Foreground="{StaticResource PrimariBrush}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
                                                    FontSize="18"/>
                                         
                                     </Border>
