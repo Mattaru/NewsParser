@@ -5,7 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>-teddy-bear_86808.ico</ApplicationIcon>
+    <ApplicationIcon>Images\-teddy-bear_86808.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="-teddy-bear_86808.ico" />
+    <Content Include="Images\-teddy-bear_86808.ico" />
   </ItemGroup>
 
   <ItemGroup>
