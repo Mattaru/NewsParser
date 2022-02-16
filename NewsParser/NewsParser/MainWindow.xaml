@@ -161,14 +161,13 @@
                      Width="850"
                      Background="Transparent"
                      ItemsSource="{Binding SelectedSource.News}"
-                     SelectedIndex="{Binding ListIndex}"
+                     SelectedIndex="0"
                      ScrollViewer.VerticalScrollBarVisibility="Visible"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.CanContentScroll="False"
-                     Visibility="{Binding NewsListVisibility}"
-                     SelectionChanged="ListBox_SelectionChanged">
+                     Visibility="{Binding NewsListVisibility}">
                 
                 <ListBox.ItemTemplate>
                     <DataTemplate>

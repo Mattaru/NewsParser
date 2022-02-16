@@ -7,15 +7,9 @@ using System.Windows.Navigation;
 
 namespace NewsParser
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+        public MainWindow() => InitializeComponent();
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
@@ -30,14 +24,6 @@ namespace NewsParser
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
-        }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listBox = (ListBox)sender;
-
-            listBox.SelectedItem = listBox.Items[0];
-            listBox.ScrollIntoView(listBox.SelectedItem);
         }
     }
 }

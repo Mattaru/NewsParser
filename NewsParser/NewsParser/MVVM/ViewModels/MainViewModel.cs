@@ -40,23 +40,7 @@ namespace NewsParser.MVVM.ViewModels
 
         private SourceModel _SelectedSource;
 
-        public SourceModel SelectedSource 
-        { 
-            get => _SelectedSource;
-            set 
-            { 
-                Set(ref _SelectedSource, value);
-                OnPropertyChanged(nameof(ListIndex));
-            } 
-        }
-
-        #endregion
-
-        #region ListIndex
-
-        private int _listIndex = 0;
-
-        public int ListIndex { get => _listIndex; set => Set(ref _listIndex, value); }
+        public SourceModel SelectedSource { get => _SelectedSource; set => Set(ref _SelectedSource, value); }
 
         #endregion
 
@@ -102,19 +86,9 @@ namespace NewsParser.MVVM.ViewModels
 
         private bool CanGetResourceDataCommandExecute(object p) => true;
 
-        private async void OnGetResourceDataCommandExecuted(object p)
+        private void OnGetResourceDataCommandExecuted(object p)
         {
-            await Task.Run(() =>
-            {
-                if (NewsListVisibility != "Collapsed") NewsListVisibility = "Collapsed";
-                if (SpinnerVisibility != "Visible") SpinnerVisibility = "Visible";
-
-                SelectedSource = HTTPRequest.GetSourceData((string)p);
-                OnPropertyChanged(nameof(SelectedSource));
-
-                NewsListVisibility = "Visible";
-                SpinnerVisibility = "Collapsed";
-            });
+            GetSource((string)p);
         }
 
         #endregion
@@ -127,6 +101,21 @@ namespace NewsParser.MVVM.ViewModels
             // For tests
             /*NewsListVisibility = "Visible";
             SelectedSource = TestingData.GetData();*/
+        }
+
+        private async void GetSource(string url)
+        {
+            await Task.Run(() =>
+            {
+                if (NewsListVisibility != "Collapsed") NewsListVisibility = "Collapsed";
+                if (SpinnerVisibility != "Visible") SpinnerVisibility = "Visible";
+
+                SelectedSource = HTTPRequest.GetSourceData(url);
+                OnPropertyChanged(nameof(SelectedSource));
+
+                NewsListVisibility = "Visible";
+                SpinnerVisibility = "Collapsed";
+            });
         }
     }
 }
