@@ -1,4 +1,5 @@
 ﻿using NewsParser.Core;
+using NewsParser.Data;
 using NewsParser.Infrastructure.Commands;
 using NewsParser.MVVM.Models;
 using NewsParser.Service;
@@ -39,7 +40,23 @@ namespace NewsParser.MVVM.ViewModels
 
         private SourceModel _SelectedSource;
 
-        public SourceModel SelectedSource { get => _SelectedSource; set => Set(ref _SelectedSource, value); }
+        public SourceModel SelectedSource 
+        { 
+            get => _SelectedSource;
+            set 
+            { 
+                Set(ref _SelectedSource, value);
+                OnPropertyChanged(nameof(ListIndex));
+            } 
+        }
+
+        #endregion
+
+        #region ListIndex
+
+        private int _listIndex = 0;
+
+        public int ListIndex { get => _listIndex; set => Set(ref _listIndex, value); }
 
         #endregion
 
@@ -107,21 +124,9 @@ namespace NewsParser.MVVM.ViewModels
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
             GetSourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
 
-
             // For tests
-
-            /*var news = Enumerable.Range(0, 10).Select(i => new NewsModel()
-            {
-                Text = "아무나 가질 수 없는 특별함이 깃든 오휘 다이아데인 크림",
-                Url = "https://mail.ru",
-                ImageUrl = "https://www.ohui.co.kr/upload/_ctrl_ohui_/news/brandnews/210429_5%EC%9B%94_%EB%B8%8C%EB%9E%9C%EB%93%9C%EB%89%B4%EC%8A%A4_thumnail.jpg"
-            });
-
-            ObservableCollection<NewsModel> NewsColl = new ObservableCollection<NewsModel>(news);
-
-            var source = new SourceModel("https://mail.ru", NewsColl);
-
-            SelectedSource = source;*/
+            /*NewsListVisibility = "Visible";
+            SelectedSource = TestingData.GetData();*/
         }
     }
 }
