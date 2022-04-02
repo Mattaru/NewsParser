@@ -18,7 +18,8 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        // for parsing
+        #region For parsing
+
         public string sum37 = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
         public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
         public string medipeel = "https://medipeel.co.kr/product/list.html?cate_no=502";
@@ -26,9 +27,14 @@ namespace NewsParser.MVVM.ViewModels
         public string iope = "https://www.iope.com/kr/ko/products/new/index.html";
         public string labonita = "https://labonita-nc1.co.kr/29";
 
-        // for links
+        #endregion
+
+        #region For links
+
         public string whoo = "https://www.whoo.co.kr";
         public string snpmall = "https://snpmall.net/product/list_new.html?cate_no=293";
+
+        #endregion
 
         #region SelectedSource
 
