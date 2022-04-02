@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
@@ -20,10 +21,21 @@ namespace NewsParser
             });
         }
 
-        private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
+        }
+
+        private void ListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            var lb = (ListBox)sender;
+
+            if (lb.Items.Count == 0) return;
+
+            lb.UpdateLayout();
+            lb.SelectedItem = lb.Items[0];
+            lb.ScrollIntoView(lb.SelectedItem);
         }
     }
 }

@@ -30,37 +30,9 @@ namespace NewsParser.Service
 
                 case "https://labonita-nc1.co.kr/29":
                     return LabonitaParser(htmlDoc);
-
-                case "https://snpmall.net/product/list_new.html?cate_no=293":
-                    return SNPMallParser(htmlDoc);
             }
 
             throw new NotImplementedException("Parsing error. Have not resourcese for parsing.");
-        }
-
-        public static IEnumerable<NewsModel> SNPMallParser(HtmlDocument htmlDoc)
-        {
-            var divList = htmlDoc.DocumentNode.Descendants()
-                    .Where(node => node.Name == "li"
-                    && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("rn_prd_thumbnail normal xans-record- xans-record-"))
-                    .ToList();
-
-            foreach (var item in divList)
-            {
-                var textDiv = item.Descendants().Where(node => (node.Name == "div"
-                    && node.Attributes["class"] != null
-                    && node.Attributes["class"].Value.Contains("name"))).First();
-
-                var newsModel = new NewsModel()
-                {
-                    Text = textDiv.Descendants("a").First().InnerText,
-                    Url = "https://snpmall.net" + item.Descendants("a").First().Attributes["href"].Value,
-                    ImageUrl = "https:" + item.Descendants("img").First().Attributes["src"].Value
-                };
-
-                yield return newsModel;
-            }
         }
 
         public static IEnumerable<NewsModel> LabonitaParser(HtmlDocument htmlDoc)

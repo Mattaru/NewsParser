@@ -11,7 +11,8 @@
         WindowStyle="None"
         ResizeMode="NoResize"
         Height="700" Width="1200"
-        Background="{StaticResource PrimariBrush}">
+        Background="{StaticResource PrimariBrush}"
+        WindowStartupLocation="CenterScreen">
     
 
     <Window.DataContext>
@@ -68,11 +69,6 @@
                              CommandParameter="https://labonita-nc1.co.kr/29"
                              Style="{StaticResource HTForm_b}"/>
 
-                <RadioButton Tag="SNP"
-                             Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://snpmall.net/product/list_new.html?cate_no=293"
-                             Style="{StaticResource HTForm_b}"/>
-
             </StackPanel>
 
             <Grid Grid.Row="1"
@@ -93,22 +89,39 @@
                         Margin="10,0,0,10"
                         BorderThickness="2,0,0,0"
                         BorderBrush="{StaticResource PrimariBrush}">
-                    <StackPanel>
+                    <StackPanel Orientation="Vertical">
 
                         <TextBlock HorizontalAlignment="Stretch"
-                               Style="{StaticResource HLink}">
+                                   Style="{StaticResource HLink}">
 
-                        <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
-                                   NavigateUri="{Binding whoo}"
-                                   TextDecorations="None">
+                            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                                       NavigateUri="{Binding whoo}"
+                                       TextDecorations="None">
 
-                            <Label Content="TheHystoryOfWhoo"
-                                   Width="300"
-                                   HorizontalContentAlignment="Left"
-                                   FontSize="14"
-                                   Foreground="{StaticResource SecondaryBrush}"/>
+                                <Label Content="TheHystoryOfWhoo"
+                                       Width="300"
+                                       HorizontalContentAlignment="Left"
+                                       FontSize="14"
+                                       Foreground="{StaticResource SecondaryBrush}"/>
 
-                        </Hyperlink>
+                            </Hyperlink>
+
+                        </TextBlock>
+
+                        <TextBlock HorizontalAlignment="Stretch"
+                                   Style="{StaticResource HLink}">
+
+                            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate"
+                                       NavigateUri="{Binding snpmall}"
+                                       TextDecorations="None">
+
+                                <Label Content="SNPmall"
+                                       Width="300"
+                                       HorizontalContentAlignment="Left"
+                                       FontSize="14"
+                                       Foreground="{StaticResource SecondaryBrush}"/>
+
+                            </Hyperlink>
 
                         </TextBlock>
 
@@ -167,7 +180,8 @@
                      HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.CanContentScroll="False"
-                     Visibility="{Binding NewsListVisibility}">
+                     Visibility="{Binding NewsListVisibility}"
+                     Loaded="ListBox_Loaded">
                 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -175,7 +189,7 @@
                         <Border Background="{StaticResource BlackFontBrush}"
                                 Height="400"
                                 CornerRadius="4">
-                            
+
                             <Grid>
 
                                 <Grid.ColumnDefinitions>
@@ -205,14 +219,14 @@
                                     <Border Grid.Row="0"
                                             Margin="10,40"
                                             Background="{StaticResource BlackFontBrush}">
-                                        
+
                                         <TextBlock Text="{Binding Text}"
                                                    TextWrapping="Wrap"
                                                    Foreground="{StaticResource PrimariBrush}"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Center"
                                                    FontSize="18"/>
-                                        
+
                                     </Border>
 
                                     <Border Grid.Row="1"
@@ -240,17 +254,17 @@
                                                        VerticalContentAlignment="Center"/>
                                     
                                             </Hyperlink>
-                                
+
                                         </TextBlock>
 
                                     </Border>
-                                    
+
                                 </Grid>
-                                
+
                             </Grid>
-                            
+
                         </Border>
-                        
+
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

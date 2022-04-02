@@ -1,11 +1,7 @@
 ﻿using NewsParser.Core;
-using NewsParser.Data;
 using NewsParser.Infrastructure.Commands;
 using NewsParser.MVVM.Models;
 using NewsParser.Service;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -29,12 +25,10 @@ namespace NewsParser.MVVM.ViewModels
         public string avajar = "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117";
         public string iope = "https://www.iope.com/kr/ko/products/new/index.html";
         public string labonita = "https://labonita-nc1.co.kr/29";
-        public string snpmall = "https://snpmall.net/product/list_new.html?cate_no=293";
 
         // for links
         public string whoo = "https://www.whoo.co.kr";
-
-        public ObservableCollection<SourceModel> SourceCollection { get; set; }
+        public string snpmall = "https://snpmall.net/product/list_new.html?cate_no=293";
 
         #region SelectedSource
 
