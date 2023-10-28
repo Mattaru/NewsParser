@@ -37,9 +37,9 @@ namespace NewsParser.Service
             var response = (SynchronizationContext.Current is null ? GetRequest(url) : Task.Run(() => GetRequest(url))).Result;
             var htmlDoc = GetHTMLDoc(response);
             var News = HTMLParser.SwitchParser(url, htmlDoc);
-            var source = new SourceModel(url, News);
+            var sourceData = new SourceModel(url, News);
 
-            return source;
+            return sourceData;
         }
     }
 }

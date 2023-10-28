@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using NewsParser.MVVM.Models;
+using NewsParser.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,19 +14,19 @@ namespace NewsParser.Service
         {
             switch (resourceName)
             {
-                case "https://www.ohui.co.kr/news/brandnews.jsp":
+                case Sources.OHUI:
                     return OhuiParser(htmlDoc);
 
-                case "https://www.sum37.com/category/%EC%8B%A0%EC%A0%9C%ED%92%88/29/#none":
+                case Sources.SUM37:
                     return Sum37Parser(htmlDoc);
 
-                case "https://medipeel.co.kr/product/list.html?cate_no=502":
+                case Sources.MEDIPEEL:
                     return MedipeelParser(htmlDoc);
 
-                case "https://www.iope.com/kr/ko/products/new/index.html":
+                case Sources.IOPE:
                     return IopeParser(htmlDoc);
 
-                case "https://labonita-nc1.co.kr/15":
+                case Sources.LABONITA:
                     return LabonitaParser(htmlDoc);
             }
 

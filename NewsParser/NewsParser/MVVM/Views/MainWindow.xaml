@@ -41,27 +41,27 @@
 
                 <RadioButton Tag="Ohui"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://www.ohui.co.kr/news/brandnews.jsp"
+                             CommandParameter="{Binding Ohui}"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Sum37"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://www.sum37.com/category/%EC%8B%A0%EC%A0%9C%ED%92%88/29/#none"
+                             CommandParameter="{Binding Sum37}"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Medipeel"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
+                             CommandParameter="{Binding Medipeel}"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Iope"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://www.iope.com/kr/ko/products/new/index.html"
+                             CommandParameter="{Binding Iope}"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Labonita"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://labonita-nc1.co.kr/15"
+                             CommandParameter="{Binding Labonita}"
                              Style="{StaticResource HTForm_b}"/>
 
             </StackPanel>

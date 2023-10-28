@@ -1,4 +1,5 @@
 ﻿using NewsParser.Core;
+using NewsParser.Data;
 using NewsParser.Infrastructure.Commands;
 using NewsParser.MVVM.Models;
 using NewsParser.Service;
@@ -18,13 +19,17 @@ namespace NewsParser.MVVM.ViewModels
 
         #endregion
 
-        #region For parsing
+        #region ParcingSources
 
-        public string sum37 = "https://www.sum37.com/category/%EC%8B%A0%EC%A0%9C%ED%92%88/29/#none";
-        public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
-        public string medipeel = "https://medipeel.co.kr/product/list.html?cate_no=502";
-        public string iope = "https://www.iope.com/kr/ko/products/new/index.html";
-        public string labonita = "https://labonita-nc1.co.kr/15";
+        public string Sum37 { get => Sources.SUM37; }
+
+        public string Ohui { get => Sources.OHUI; }
+
+        public string Medipeel { get => Sources.MEDIPEEL; }
+
+        public string Iope { get => Sources.IOPE; }
+
+        public string Labonita { get => Sources.LABONITA; }
 
         #endregion
 
@@ -96,7 +101,7 @@ namespace NewsParser.MVVM.ViewModels
         {
             CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
             GetSourceDataCommand = new LambdaCommand(OnGetResourceDataCommandExecuted, CanGetResourceDataCommandExecute);
-
+            
             // For tests
             /*NewsListVisibility = "Visible";
             SelectedSource = TestingData.GetData();*/
