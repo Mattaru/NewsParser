@@ -20,12 +20,11 @@ namespace NewsParser.MVVM.ViewModels
 
         #region For parsing
 
-        public string sum37 = "http://www.sum37.co.kr/online/magazine/magazine.jsp";
+        public string sum37 = "https://www.sum37.com/category/%EC%8B%A0%EC%A0%9C%ED%92%88/29/#none";
         public string ohui = "https://www.ohui.co.kr/news/brandnews.jsp";
         public string medipeel = "https://medipeel.co.kr/product/list.html?cate_no=502";
-        public string avajar = "https://m.avajar.co.kr/product/list_thumb.html?cate_no=117";
         public string iope = "https://www.iope.com/kr/ko/products/new/index.html";
-        public string labonita = "https://labonita-nc1.co.kr/29";
+        public string labonita = "https://labonita-nc1.co.kr/15";
 
         #endregion
 

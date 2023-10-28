@@ -46,17 +46,12 @@
 
                 <RadioButton Tag="Sum37"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="http://www.sum37.co.kr/online/magazine/magazine.jsp"
+                             CommandParameter="https://www.sum37.com/category/%EC%8B%A0%EC%A0%9C%ED%92%88/29/#none"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Medipeel"
                              Command="{Binding GetSourceDataCommand}"
                              CommandParameter="https://medipeel.co.kr/product/list.html?cate_no=502"
-                             Style="{StaticResource HTForm_b}"/>
-
-                <RadioButton Tag="Avajar"
-                             Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://m.avajar.co.kr/product/list_thumb.html?cate_no=117"
                              Style="{StaticResource HTForm_b}"/>
 
                 <RadioButton Tag="Iope"
@@ -66,7 +61,7 @@
 
                 <RadioButton Tag="Labonita"
                              Command="{Binding GetSourceDataCommand}"
-                             CommandParameter="https://labonita-nc1.co.kr/29"
+                             CommandParameter="https://labonita-nc1.co.kr/15"
                              Style="{StaticResource HTForm_b}"/>
 
             </StackPanel>
